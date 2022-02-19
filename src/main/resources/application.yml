@@ -1,0 +1,32 @@
+versao:
+  major: 1
+  minor: 0
+  release: 0
+  build: 1
+  beta: 0
+  data: 19/02/2022
+
+server:
+    port: 9012
+
+spring:
+    datasource:
+        url: jdbc:postgresql://localhost:5432/financeiro
+        JdbcUrl: jdbc:postgresql://localhost:5432/financeiro
+        username: postgres
+        password: postgres
+        driverClassName: org.postgresql.Driver
+    application:
+        name: FinanceiroAPI
+    cloud:
+        config:
+            import-check:
+                enabled: false
+    flyway:
+        enabled: true
+        locations: classpath:db/migration
+        schemas: public
+        baselineOnMigrate: true   
+
+                    
+                    
