@@ -1,5 +1,7 @@
 package br.com.mo.financeiroapi.service.usuario;
 
+import br.com.mo.financeiroapi.controller.InfoController;
+import br.com.mo.financeiroapi.mensageria.AtividadesSender;
 import br.com.mo.financeiroapi.model.dto.GenericResponseDto;
 import br.com.mo.financeiroapi.model.dto.usuario.UsuarioSalvarDto;
 import br.com.mo.financeiroapi.model.enums.StatusEnvio;
@@ -13,9 +15,11 @@ import org.springframework.transaction.annotation.Transactional;
 public class UsuarioService {
 
     private final UsuarioDAO usuarioDAO;
+    private final AtividadesSender atividadesSender;
 
     @Autowired
-    public UsuarioService(UsuarioDAO usuarioDAO) {
+    public UsuarioService(AtividadesSender atividadesSender, UsuarioDAO usuarioDAO) {
+        this.atividadesSender = atividadesSender;
         this.usuarioDAO = usuarioDAO;
     }
 
@@ -34,9 +38,13 @@ public class UsuarioService {
         } else {
             if (pUsuario.getId() > 0) {
                 usuarioDAO.alteraUsuario(pUsuario);
+                
+                atividadesSender.sendInfo(UsuarioService.class, "Usuário " + pUsuario.getId() + " alterado.");
 
             } else {
                 idUsuario = usuarioDAO.inserirUsuario(pUsuario);
+                
+                atividadesSender.sendInfo(UsuarioService.class, "Usuário " + idUsuario + " cadastrado.");
             }
 
             oGenericResponse.setStatus(StatusEnvio.SUCESSO.getId());

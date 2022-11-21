@@ -27,6 +27,13 @@ spring:
         locations: classpath:db/migration
         schemas: public
         baselineOnMigrate: true   
+    rabbitmq:
+        host: localhost
+        port: 5672
+        username: 
+        password: 
+        
+queue:
+    erro: financeiroapi.erro
+    info: financeiro.info
 
-                    
-                    
